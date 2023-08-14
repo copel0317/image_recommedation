@@ -1,7 +1,8 @@
 import pandas as pd
 import Text2Token
 import TF_IDF
-import translate
+import translator
+import calculator
 
 # 현재는 csv 파일로 만들어서 hash와 text를 넘겨 구현했습니다.
 # 차후 연결할 때 이 부분을 수정해야 합니다.
@@ -31,13 +32,15 @@ class Database:
         pass
     
     
-
+#생성 시 사전과 userText를 받고, query_vector를 가지고 있는 객체
 class Query:
     
     def __init__(self, userText, data): 
         print("Q : ", userText)
-        query = translate.translateKrtoEn(userText)
+        query = translator.translateKrtoEn(userText)                       #영어로 처리
         self.query_matrix = self.weighted_query(query,data.IDF_matrix)    #사용자의 질문을 idf matrix를 참고하여 가중치 수정.
+        self.validwords= calculator.validwords(self.query_matrix)      #사전에 있는 단어만 고려 
+        self.query_vector=calculator.vectorization(self.validwords,data.vocab)
         
     def weighted_query(self, query_matrix, idf_matrix) : 
         i=0
@@ -51,3 +54,4 @@ class Query:
             if j==len(idf_matrix) : query_matrix.iloc[i,0]=0
             i=i+1
         return query_matrix
+    
