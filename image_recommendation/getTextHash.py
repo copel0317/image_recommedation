@@ -3,6 +3,9 @@
 
 import pandas as pd
 
-def getTextHash():
-    df=pd.read_csv("C:/Users/Administrator/Desktop/MinigptOut.csv")
+def getTextHash(path):
+    df=pd.read_csv(path)
+    if df['Description'].isnull==1 :
+        df['Description'] = df['Description'].fillna('')
+        raise Exception("description에서 null값 발생.")
     return df
