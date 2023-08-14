@@ -32,19 +32,20 @@ def lemmatization(words):
     return [lemmatizer.lemmatize(word) for word in words]
 
 def Text2Token(df):
-    df['cleaned'] = df['Description'].apply(_removeNonAscii)
-    df['cleaned'] = df.cleaned.apply(make_lower_case)
-    df['cleaned'] = df.cleaned.apply(remove_stop_words)
-    df['cleaned'] = df.cleaned.apply(remove_punctuation)
-    df['cleaned'] = df.cleaned.apply(tokenization)
-    df['cleaned'] = df.cleaned.apply(lemmatization) 
-    return df['cleaned']
+    df['Tokenized'] = df['Description'].apply(_removeNonAscii)      #람다식 사용하여 수정 예정
+    df['Tokenized'] = df.Tokenized.apply(make_lower_case)
+    df['Tokenized'] = df.Tokenized.apply(remove_stop_words)
+    df['Tokenized'] = df.Tokenized.apply(remove_punctuation)
+    df['Tokenized'] = df.Tokenized.apply(tokenization)
+    df['Tokenized'] = df.Tokenized.apply(lemmatization) 
+    return df['Tokenized']
 
 def vocab(df):
-    vocab = list(set(w for words in df.cleaned for w in words if len(w)>=3))
+    vocab = list(set(w for words in df.Tokenized for w in words if len(w)>=3))
     vocab.sort()
     return vocab
 
+# 데이터가 없을 경우. (에러로 만들어서 다운 받는 코드를 생각은 하고 있으나, 일단은 보류)
 if __name__ == '__main__':
     nltk.download('wordnet')
     nltk.download('stopwords')

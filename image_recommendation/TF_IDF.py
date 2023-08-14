@@ -8,7 +8,7 @@ def TF(df,vocab):
     
     for i in range(N):
         result.append([])
-        d=df.cleaned[i]
+        d=df.Tokenized[i]
         
         for j in range(len(vocab)):
             t = vocab[j]
