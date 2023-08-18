@@ -14,7 +14,7 @@ class Database:
         
         Text2Token.Text2Token(data)                                         #토큰화 및 사전 만드는 부분.
         vocab=Text2Token.vocab(data)
-                                                                            #알고리즘 계산 부분.
+        
         self.data = data
         self.vocab = vocab
         self.TF_matrix = TF_IDF.TF(data,vocab)
@@ -31,7 +31,7 @@ class Database:
 class Query:
     
     def __init__(self, userText, data): 
-        print("\nQ : ", userText, "\n")
+        print("Q : ", userText)
         query = translator.translateKrtoEn(userText)                       #영어로 처리
         self.query_matrix = self.weighted_query(query,data.IDF_matrix)    #사용자의 질문을 idf matrix를 참고하여 가중치 수정.
         self.validwords= calculator.validwords(self.query_matrix)      #사전에 있는 단어만 고려 
