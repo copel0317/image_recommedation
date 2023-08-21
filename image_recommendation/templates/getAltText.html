@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>get Best Pictures</title>
+</head>
+<body>
+    <h1>Enter Data</h1>
+    
+    <form method="POST" action="/getAltText">
+        <label for="input_data">Enter Datapath</label><br>
+        <input type="text" id="datapath" name="datapath"><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if datapath %}
+    <h2>Result:</h2>
+    <p>You entered: {{ datapath }}</p>
+    <p>altText: {{ altText }}</p>
+    {% endif %}
+</body>
+</html>
