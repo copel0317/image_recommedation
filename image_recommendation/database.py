@@ -30,7 +30,7 @@ class Database:
 #생성 시 사전과 userText를 받고, query_vector를 가지고 있는 객체
 class Query:
     
-    def __init__(self, userText, data): 
+    def __init__(self, data, userText): 
         print("\nQ : ", userText, "\n")
         query = translator.translateKrtoEn(userText)                       #영어로 처리
         self.query_matrix = self.weighted_query(query,data.IDF_matrix)    #사용자의 질문을 idf matrix를 참고하여 가중치 수정.
