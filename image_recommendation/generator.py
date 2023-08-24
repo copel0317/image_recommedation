@@ -2,7 +2,6 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import demo_torch
-from database import Database
 
 import pandas as pd
 from pathlib import Path
@@ -27,9 +26,4 @@ class Generator:
         for file in Path(img_path).iterdir():
             self.new_text(str(file))
         return self.data
-        """
-        #토큰 처리 및 TF-IDF 알고리즘 수행
-        data = Database(self.data)
-        self.data['Tokenized_Vector']=data.TF_IDF_matrix
-        self.data['IDF_matrix']=data.IDF_matrix"""
 AltTextGenerator = Generator()
