@@ -12,6 +12,13 @@ from minigpt4.common.dist_utils import get_rank
 from minigpt4.common.registry import registry
 from minigpt4.conversation.conversation import Chat, CONV_VISION
 
+#==============
+# Minigpt4 폴더 내 image recommendation 폴더에서 나머지 코드가 실행된다고 가정.
+def change_dir(path):
+    os.chdir(path)
+change_dir('..')
+#==============
+
 # imports modules for registration
 from minigpt4.datasets.builders import *
 from minigpt4.models import *
@@ -22,7 +29,8 @@ from minigpt4.tasks import *
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Demo")
-    parser.add_argument("--cfg-path", required=True, help="path to configuration file.")
+    #parser.add_argument("--cfg-path", required=True, help="path to configuration file.")
+    parser.add_argument("--cfg-path", default="eval_configs/minigpt4_eval.yaml", help="path to configuration file.")
     parser.add_argument("--gpu-id", type=int, default=0, help="specify the gpu to load the model.")
     parser.add_argument(
         "--options",
@@ -33,6 +41,7 @@ def parse_args():
     )
     args = parser.parse_args()
     return args
+
 
 
 def setup_seeds(config):
@@ -60,8 +69,9 @@ def initialize() :
     vis_processor = registry.get_processor_class(vis_processor_cfg.name).from_config(vis_processor_cfg)
     chat = Chat(model, vis_processor, device='cuda:{}'.format(args.gpu_id))
     print('Initialization Finished')
+    return chat
 
-def model_processing(img_path,prompt, num_beams, temperature):
+def model_processing(img_path,prompt, num_beams, temperature, chat):
     img_list = []
     chat_state = CONV_VISION.copy()
     llm_message = chat.upload_img(img_path, chat_state, img_list)
@@ -75,9 +85,9 @@ def model_processing(img_path,prompt, num_beams, temperature):
     return llm_message    
 
 
-def text_generate(img_path):
+def text_generate(img_path, chat):
     with torch.no_grad() as demo:
-        llm_message = model_processing(img_path,prompt,num_beams, temperature)
+        llm_message = model_processing(img_path,prompt,num_beams, temperature, chat)
     return llm_message
 
 # ========================================
@@ -92,9 +102,12 @@ img_path="/home/user/SaGol/MiniGPT-4/Images/penguins.jpg"
 # ========================================
 #              Main function
 # ========================================
-initialize()
-llm_message = text_generate(img_path)
-print(llm_message)
+if __name__== "__main__":
+    chat = initialize()
+    llm_message = text_generate(img_path,chat)
+    print(llm_message)
+
+    
 
 
 

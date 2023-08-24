@@ -32,7 +32,7 @@ def lemmatization(words):
     return [lemmatizer.lemmatize(word) for word in words]
 
 def Text2Token(df):
-    df['Tokenized'] = df['Description'].apply(_removeNonAscii)      #람다식 사용하여 수정 예정
+    df['Tokenized'] = df['Description'].apply(_removeNonAscii) 
     df['Tokenized'] = df.Tokenized.apply(make_lower_case)
     df['Tokenized'] = df.Tokenized.apply(remove_stop_words)
     df['Tokenized'] = df.Tokenized.apply(remove_punctuation)

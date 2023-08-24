@@ -1,16 +1,6 @@
 import numpy as np
 import pandas as pd
 import translator
-
-class Recommendation:
-    def __init__(self, Query, Data):
-        self.cos_sim_matrix=cos_sim_matrix(Query.query_vector, Data.TF_IDF_matrix)
-        self.hash=recommend(self.cos_sim_matrix, Data.data)
-        self.translated_hashs=translator.translateResulttoKr(self.hash)
-
-
-    def printf(self):
-        print("A : ", self.hash)
         
 """
 score가 일정 이상인 값인 사진을 여러 장 return하는 함수.
@@ -23,8 +13,8 @@ score가 일정 이상인 값인 사진을 여러 장 return하는 함수.
         return result
 """
 
-def recommend(cos_sim_matrix, data):              #similarity가 가장 높은 사진 하나를 추천하는 함수
-    past_similarity=0                             #일단 class에서 분리하여 test중
+def recommend(cos_sim_matrix, data):  
+    past_similarity=0             
     for index in cos_sim_matrix:
         if index[1]!=0  :
             if index[1]>past_similarity:
