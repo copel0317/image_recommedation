@@ -4,9 +4,9 @@ import Text2Token
 import googletrans             #googletrans 3.1.0a0이 아닐 경우 오류 발생.
                                 #pip uninstall googletrans
                                 #pip install googletrans==3.1.0a0 
-
+translator = googletrans.Translator()
+        
 def translateKrtoEn(UserText):
-    translator = googletrans.Translator()
 
     UserText = translator.translate(UserText, dest='en', src='auto').text
     query = pd.DataFrame({'Hash': ["Query"],
@@ -18,10 +18,14 @@ def translateKrtoEn(UserText):
 
     return query_matrix
 
-def translateResulttoKr(hash):
-    translator = googletrans.Translator()
-    hash[1] = translator.translate(hash[1], dest='ko', src='auto').text
-    return hash
+def translateResulttoKr(recommend):
+    recommend[1] = translator.translate(recommend[1], dest='ko', src='auto').text
+    return recommend
+
+
+def translatetoKr(description):
+    description = translator.translate(description, dest='ko', src='auto').text
+    return description
 
 """
 여러 장의 사진을 추천할 때.

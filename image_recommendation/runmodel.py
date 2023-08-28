@@ -1,10 +1,12 @@
 import json
 from flask import Flask, request, jsonify
-from generator import AltTextGenerator
+#from generator import AltTextGenerator
 from Text2Token import Text2Token
 import translator
 import TF_IDF
 import calculator
+import io
+from PIL import Image
 
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -16,38 +18,25 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return "hello"
-
-
-@app.route('/getAltText_img_path', methods=['POST'])
-def generate_text_path():
-    img_path = None
-    try:
-        img_path = request.form['img_path']
-        if img_path:
-            result = AltTextGenerator.generate(img_path)
-            result_json = result.to_json(orient='records')
-            return result_json
-    
-        else:
-            return jsonify({"result": "이미지 경로 오류"})
-        
-    except Exception as e:    
-        return jsonify({"error": str(e)})
-
     
 @app.route('/getAltText', methods=['POST'])
 # TODO : img_path가 아니라 단일 이미지를 받아도 처리가 가능하도록 함수 수정
 def generate_text():
-    img_path = None
     try:
-        img_path = request.form['img_path']
-        if img_path:
-            result = AltTextGenerator.generate(img_path)
+        Id = request.form['Id']
+        Hash = request.form['Hash']
+        uploaded_file = request.files['Image']  #FileStorage 객체. Response와 같이 여러 속성을 가진다
+        
+        Img = uploaded_file.read()
+        Img = Image.open(io.BytesIO(Img))
+        
+        if Img:
+            result = AltTextGenerator.generate(Img, Hash, Id)
             result_json = result.to_json(orient='records')
             return result_json
     
         else:
-            return jsonify({"result": "이미지 경로 오류"})
+            return jsonify({"result": "이미지 오류"})
         
     except Exception as e:    
         return jsonify({"error": str(e)})    
@@ -58,12 +47,12 @@ def getBestPictures():
     try:
         #입력받는 데이터
         userText = request.form['userText']
-        json_data = request.form['data']
+        data =json.loads(request.form['data'])
         
         #한글로 입력받은 질문 -> 영어 토큰으로 전처리
         query = translator.translateKrtoEn(userText)
         query_dict = query[0].to_dict()
-        data = json.loads(json_data)
+
         
         #data에서 등장하는 단어들로 vocabulary 만들기
         descriptions = pd.DataFrame({"Description":[item['Description'] for item in data]})
@@ -85,9 +74,19 @@ def getBestPictures():
         cos_sim_matrix = calculator.cos_sim_matrix(query_vector, TF_IDF_matrix)
         BestPicture = calculator.recommend(cos_sim_matrix, data)
 
-        #BestPicture의 [0]은 Hash, 1은 Description(영어). 목적에 따라 한글 description을 return하는 것도 가능함
+        #BestPicture의 [0]은 Hash, 1은 Description(영어).
         return json.dumps(BestPicture[0])
                 
+    except Exception as e:    
+        return jsonify({"error": str(e)})
+    
+@app.route('/translate', methods=['POST'])
+def translatetoKr():
+    try:
+        Hash = request.form['Hash']
+        Description = request.form['Description']
+        Id = request.form['Id']
+        return translator.translatetoKr(Description)
     except Exception as e:    
         return jsonify({"error": str(e)})
 
