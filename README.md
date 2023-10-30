@@ -5,7 +5,7 @@
 
 ## Setup
 구동 조건 : SaGol/MiniGPT-4 에서 해당 repo clone  
-가상 환경 : minigpt4
+가상 환경 : minigpt4  
 현재 포트 : 8890 ("http://172.16.162.72:8890/getAltText") / runmodel.py에서 수정 가능합니다.
 
 ## route / result
