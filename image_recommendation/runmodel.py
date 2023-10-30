@@ -34,7 +34,7 @@ size_limit = 10
 Resizer = Resizer(halve_rate, size_limit)
 
 #텍스트 생성 개체(그래픽카드 번호)
-#AltTextGenerator_0 = Generator(0)
+AltTextGenerator_0 = Generator(0)
 
 #Resizer의 인수 조절 경로
 @app.route('/config', methods=['POST'])
