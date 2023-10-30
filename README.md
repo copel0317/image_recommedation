@@ -1,5 +1,6 @@
 # image_recommedation
 이미지에 대한 설명 생성, 사진 추천 기능 제공
+
 구동 코드가 들어있는 파일은 image_recommendation/runmodel.py입니다. (정리하다 꼬여 일단 이렇게 구동했습니다.)
 
 ## Setup
