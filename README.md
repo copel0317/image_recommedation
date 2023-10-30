@@ -4,8 +4,9 @@
 구동 코드가 들어있는 파일은 image_recommendation/runmodel.py입니다. (정리하다 꼬여 일단 이렇게 구동했습니다.)
 
 ## Setup
-구동 조건 : SaGol/MiniGPT-4 에서 해당 repo clone
+구동 조건 : SaGol/MiniGPT-4 에서 해당 repo clone  
 가상 환경 : minigpt4
+현재 포트 : 8890 ("http://172.16.162.72:8890/getAltText") / runmodel.py에서 수정 가능합니다.
 
 ## route / result
 |  route |       | result |
@@ -17,7 +18,7 @@
 
 
 ## /getAltText
-Id(text), Hash(text), Image(image) 를 입력받아, image의 설명을 return합니다.
+Id(text), Hash(text), Image(image) 를 입력받아, image의 설명을 return합니다.  
 실험할 때 사용한 코드
 ```
 def makeDescription (Img, Hash, Id) :
@@ -40,7 +41,7 @@ makeDescription(Img, Hash, Id)
 
 
 ## /getBestPictures
-userText(Text), data(pairs)를 입력받아 data에서 userText에 맞는 사진의 이름을 반환합니다.
+userText(Text), data(pairs)를 입력받아 data에서 userText에 맞는 사진의 이름을 반환합니다.  
 실험할 때 사용한 코드
 ```
 def makeDescription_directory (img_path, Id) :
@@ -82,5 +83,6 @@ config(0.1, 100)
 ```
 
 TODO 
-1. 병렬처리가 현재 되지 않고 있습니다. 현재 Generator는 tools의 generator.py에 구현되어 있으며, runmodel.py에서는 0번 그래픽카드를 사용하도록 되어 있습니다.
-2. 현재 프롬프트가 "Describe the image"로 설정되어있습니다. 한 번씩 이상한 답변을 할 때가 있는데 이 부분을 수정해야 할 것 같습니다.
+1. 병렬처리가 현재 되지 않고 있습니다.  
+2. 현재 Generator는 tools의 generator.py에 구현되어 있으며, runmodel.py에서는 0번 그래픽카드를 사용하도록 되어 있습니다.  
+3. 현재 프롬프트가 "Describe the image"로 설정되어있습니다. 한 번씩 이상한 답변을 할 때가 있는데 이 부분을 수정해야 할 것 같습니다.
