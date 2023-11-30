@@ -3,7 +3,7 @@
 /translation 에 json 형태로 post 요청
 { 
     "text" : text (to translate)
-    "translation_service" : (google / mozilla / papago)
+    "translation_service" : (google / papago / model)
 }
 # return json
 return {
