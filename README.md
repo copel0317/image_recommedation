@@ -25,8 +25,9 @@ Id(text), Hash(text), files(images) 를 입력받아, 이미지들에 대한 설
 files(images)는
 files['key'] = (image_name, image_data(binary)) 형태의 딕셔너리 형태로 구성되며, key, image_name은 모델을 돌리는 데는 영향을 주지 않으나, 구현 중 필요해서 넣은 부분이라 임의로 설정하셔도 됩니다.
 
-요청에 대한 응답은 한 번에 반환되며, 현재 모델에는 한 번에 5개의 사진을 넘겨주고 있습니다. 
-(너무 많이 넣을 경우 Warning: The number of tokens in current conversation exceeds the max length. The model will not see the contexts outside the range. 가 발생)
+요청에 대한 응답은 한 번에 반환되며, 현재 모델에는 한 번에 5개씩 넘겨주고 있습니다. 
+(배치 사이즈를 더 늘렸을 때 Warning: The number of tokens in current conversation exceeds the max length. The model will not see the contexts outside the range. 가 발생)
+한 번에 flask 서버로 넘겨주는 사진 수에는 제한이 없습니다.
 
 실험할 때 사용한 코드
 ```
