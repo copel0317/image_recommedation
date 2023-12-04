@@ -49,13 +49,7 @@ def send_request(url, images_subset):
     data = json.loads(json_data)
     
     return data
-
-#=====================================================             #사진의 기본 프롬프트는 Describe the image.
-Img = "C:/Users/Administrator/Desktop/apple.jpg"
-Hash = "21123dasdasd12e"
-Id = "Sagol"
-#=====================================================
-makeDescription(Img, Hash, Id)
+```
 
 ## /getAltText
 Id(text), Hash(text), Image(image) 를 입력받아, image의 설명을 return합니다.  
